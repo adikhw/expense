@@ -6,7 +6,8 @@ VALID_TYPE= {"income", "expense"}
 # validation
 def amount_validation(amount):
     try:
-        number = int(amount)
+        text = int(amount)
+        number = int(str(amount))
     except ValueError:
         raise ValueError("amount must be an integer")
     if number <= 0:
@@ -40,4 +41,31 @@ def date_validation(date_text):
 
     return result.date().isoformat()
 
+# main functions
+def add_transaction(date_text, transactions_type, amount, category, note):
+    date_text = date_validation(date_text)
+    transactions_type = type_validation(transactions_type)
+    amount = amount_validation(amount)
+    category = category_validation(category)
+    note = note.strip()
 
+    data = load_data()
+
+    if not data:
+        new_id = 1
+    else:
+        new_id = max(item["id"] for item in data) + 1    
+
+    transaction = {
+        "id": new_id,
+        "date": date_text,
+        "type": transactions_type,
+        "amount": amount,
+        "category": category,
+        "note": note
+    }
+
+    data.append(transaction)
+    save_data(data)
+
+    return transaction
