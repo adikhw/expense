@@ -1,6 +1,10 @@
 [
   {
     "id": 1,
-    "amount": 25000
+    "date": "2026-10-09",
+    "type": "income",
+    "amount": 5000000,
+    "category": "gaji",
+    "note": "gajian"
   }
 ]
