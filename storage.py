@@ -10,8 +10,13 @@ def load_data():
 
     try:
         with open(DATA_FILE ,"r") as f:
-            return json.load(f)
-            
+            data = json.load(f)
+
+        if not isinstance(data, list):
+            return []
+
+        return data
+
     except json.JSONDecodeError:
         return []
 
