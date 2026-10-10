@@ -1,12 +1,11 @@
 from datetime import date, datetime
 from storage import load_data, save_data
 
-VALID_TYPE= {"income", "expense"}
+VALID_TYPE={"income", "expense"}
 
 # Validation functions
 def amount_validation(amount):
     try:
-        text = int(amount)
         number = int(str(amount))
     except ValueError:
         raise ValueError("amount must be an integer")
@@ -68,8 +67,6 @@ def add_transaction(date_text, transactions_type, amount, category, note):
     data.append(transaction)
     save_data(data)
 
-    return 
-
 # History functions
 def get_sorted_transactions():
     data = load_data()
@@ -79,4 +76,38 @@ def get_sorted_transactions():
         reverse=True
     )
     return sorted_data
+
+# Summary functions
+def calculate_summary(month = None):
+    data = load_data()
+
+    if month is not None:
+        data = [
+            t for t in data
+            if t["date"][:7] == month
+        ] # Month format "YYYY-MM"
+
+    total_income = 0
+    total_expense = 0 
+    per_category = {} # Key: category, value: total expense
+
+    for t in data:
+        if t["type"] == "income":
+            total_income = total_income + t["amount"]
+        elif t["type"] == "expense":
+            total_expense = total_expense + t["amount"]
+
+            if t["category"] not in per_category:
+                per_category[t["category"]] = 0
+
+            per_category[t["category"]] = per_category[t["category"]] + t["amount"]
+
+    balance = total_income - total_expense
+
+    return {
+        "total_income": total_income,
+        "total_expense": total_expense,
+        "balance": balance,
+        "per_category": per_category
+    }
 
