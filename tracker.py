@@ -3,7 +3,7 @@ from storage import load_data, save_data
 
 VALID_TYPE= {"income", "expense"}
 
-# validation
+# Validation functions
 def amount_validation(amount):
     try:
         text = int(amount)
@@ -41,7 +41,7 @@ def date_validation(date_text):
 
     return result.date().isoformat()
 
-# main functions
+# Main functions
 def add_transaction(date_text, transactions_type, amount, category, note):
     date_text = date_validation(date_text)
     transactions_type = type_validation(transactions_type)
@@ -68,4 +68,15 @@ def add_transaction(date_text, transactions_type, amount, category, note):
     data.append(transaction)
     save_data(data)
 
-    return transaction
+    return 
+
+# History functions
+def get_sorted_transactions():
+    data = load_data()
+    sorted_data = sorted(
+        data,
+        key=lambda item: (item["date"], item["id"]),
+        reverse=True
+    )
+    return sorted_data
+
