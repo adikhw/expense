@@ -111,3 +111,28 @@ def calculate_summary(month = None):
         "per_category": per_category
     }
 
+# Find function
+def find_transaction(transactions_id): 
+    data = load_data()
+
+    for t in data:
+        if t['id'] == transactions_id:
+            return t
+    return None
+
+# Delete function
+def delete_transaction(transactions_id):
+    data = load_data()
+    new_data = []
+    found = False
+
+    for t in data:
+        if t['id'] == transactions_id:
+            found = True
+        else:
+            new_data.append(t)
+
+    if not found:
+        raise ValueError("ID not found")
+
+    save_data(new_data)

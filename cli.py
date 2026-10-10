@@ -1,5 +1,5 @@
 from datetime import datetime
-from tracker import get_sorted_transactions, calculate_summary
+from tracker import get_sorted_transactions, calculate_summary, find_transaction, delete_transaction
 
 # Show transactions history
 def show_history():
@@ -53,3 +53,37 @@ def show_summary():
     else:
         for category, total in summary['per_category'].items():
             print(f"{category:<12}  {total:>12,}")
+
+# Delete menu
+def delete_menu():
+    id_input = input("ID to be deleted: ")
+
+    try:
+        transactions_id = int(id_input)
+    except ValueError:
+        print("ID must be a number")
+        return
+
+    t = find_transaction(transactions_id)
+    if t is None:
+        print("ID not found")
+        return
+
+    print(f"ID          : {t['id']}")
+    print(f"Date        : {t['date']}")
+    print(f"Type        : {t['type']}")
+    print(f"Amount      : {t['amount']:,}")
+    print(f"Category    : {t['category']}")
+    print(f"Note        : {t['note']}")
+
+    answer = input("Delete this transaction? y/n: ").strip().lower()
+
+    if answer == "y":
+        try:
+            delete_transaction(transactions_id)
+            print("Transaction deleted")
+        except ValueError as e:
+            print(e)
+
+    else:
+        print("Canceled")
