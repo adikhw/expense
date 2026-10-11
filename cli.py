@@ -159,19 +159,22 @@ def main_menu():
 
         choice = input("Choose an option: ").strip()
 
-        if choice == "1":
-            add_menu()
-        elif choice == "2":
-            show_history()
-        elif choice == "3":
-            show_summary()
-        elif choice == "4":
-            delete_menu()
-        elif choice == "5":
-            print("Goodbye!")
-            return
-        
-        else:
-            print("Invalid choice, please enter 1-5")
+        try:
+            if choice == "1":
+                add_menu()
+            elif choice == "2":
+                show_history()
+            elif choice == "3":
+                show_summary()
+            elif choice == "4":
+                delete_menu()
+            elif choice == "5":
+                print("Goodbye!")
+                return
+            
+            else:
+                print("Invalid choice, please enter 1-5")
+        except ValueError as err:
+            print("Error:", err)
 
         print()
