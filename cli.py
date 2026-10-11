@@ -144,3 +144,34 @@ def add_menu():
         print("Transaction added")
     except ValueError as error:
         print(error)
+
+# Main menu
+def main_menu():
+    while True:
+        print("=" * 10, "EXPENSE TRACKER", "=" *10)
+        print(
+            "\n 1. Add transaction",
+            "\n 2. Show history",
+            "\n 3. Show summary",
+            "\n 4. Delete transaction",
+            "\n 5. Exit"
+        )
+
+        choice = input("Choose an option: ").strip()
+
+        if choice == "1":
+            add_menu()
+        elif choice == "2":
+            show_history()
+        elif choice == "3":
+            show_summary()
+        elif choice == "4":
+            delete_menu()
+        elif choice == "5":
+            print("Goodbye!")
+            return
+        
+        else:
+            print("Invalid choice, please enter 1-5")
+
+        print()
