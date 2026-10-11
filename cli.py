@@ -1,6 +1,13 @@
 from datetime import date, datetime
 from tracker import get_sorted_transactions, calculate_summary, find_transaction, delete_transaction, add_transaction
 
+# Style helper
+def print_title(text):
+    print()
+    print(f" {text} ".center(40, "="))
+    print()
+
+
 # Show transactions history
 def show_history():
     transactions = get_sorted_transactions()
@@ -42,11 +49,15 @@ def show_summary():
 
     summary = calculate_summary(month)
 
+    print()
     print("SUMMARY")
+    print("-" * 28)
     print(f"Total income  : {summary['total_income']:>12,}")
     print(f"Total expense : {summary['total_expense']:>12,}")
     print(f"Balance       : {summary['balance']:>12,}")
+    print("-" * 28)
 
+    print()
     print("Expense per category:")
     if not summary['per_category']:
         print("No expenses yet")
@@ -69,14 +80,17 @@ def delete_menu():
         print("ID not found")
         return
 
+    print()
     print(f"ID          : {t['id']}")
     print(f"Date        : {t['date']}")
     print(f"Type        : {t['type']}")
     print(f"Amount      : {t['amount']:,}")
     print(f"Category    : {t['category']}")
     print(f"Note        : {t['note']}")
+    print()
 
     answer = input("Delete this transaction? y/n: ").strip().lower()
+    print()
 
     if answer == "y":
         try:
@@ -128,7 +142,7 @@ def confirm_input(prompt):
 
 # Add menu functions
 def add_menu():
-    print("Add Transaction")
+    print_title("ADD TRANSACTION")
 
     date_text = input("Date (YYYY-MM-DD, empty = today): ").strip()
     transactions_type = input("Type (income/expense): ").strip().lower()
@@ -139,6 +153,7 @@ def add_menu():
     if not date_text:
         date_text = date.today().isoformat()
 
+    print()
     try:
         add_transaction(date_text, transactions_type, amount, category, note)
         print("Transaction added")
@@ -148,14 +163,15 @@ def add_menu():
 # Main menu
 def main_menu():
     while True:
-        print("=" * 10, "EXPENSE TRACKER", "=" *10)
+        print_title("EXPENSE TRACKER")
         print(
-            "\n 1. Add transaction",
-            "\n 2. Show history",
-            "\n 3. Show summary",
-            "\n 4. Delete transaction",
-            "\n 5. Exit"
+            "1. Add transaction",
+            "\n2. Show history",
+            "\n3. Show summary",
+            "\n4. Delete transaction",
+            "\n5. Exit"
         )
+        print()
 
         choice = input("Choose an option: ").strip()
 
@@ -177,4 +193,4 @@ def main_menu():
         except ValueError as err:
             print("Error:", err)
 
-        print()
+        
