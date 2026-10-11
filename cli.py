@@ -1,8 +1,8 @@
-from datetime import date
 from tracker import get_sorted_transactions, calculate_summary, find_transaction, delete_transaction, add_transaction, is_valid_month
 
 # Style helper
 def print_title(text):
+    """Display a centered title with separator lines."""
     print()
     print(f" {text} ".center(40, "="))
     print()
@@ -10,6 +10,14 @@ def print_title(text):
 
 # Input functions
 def get_non_empty_input(prompt):
+    """Prompt repeatedly until the user enters non-empty text.
+
+    Args:
+        prompt: The message displayed to the user.
+
+    Returns:
+        str: The non-empty input with surrounding whitespace removed.
+    """
     while True:
         text = input(prompt).strip()
 
@@ -20,6 +28,14 @@ def get_non_empty_input(prompt):
             print("Input cannot be empty")
 
 def get_positive_int(prompt):
+    """Prompt repeatedly until the user enters a positive integer.
+
+    Args:
+        prompt: The message displayed to the user.
+
+    Returns:
+        int: The validated positive integer.
+    """
     while True:
         raw = input(prompt).strip()
 
@@ -35,6 +51,14 @@ def get_positive_int(prompt):
             print("Number must be greater than 0")
 
 def confirm_input(prompt):
+    """Prompt until the user confirms with y or n.
+
+    Args:
+        prompt: The confirmation message displayed to the user.
+
+    Returns:
+        bool: True for y and False for n.
+    """
     while True:
         answer = input(prompt).strip().lower()
 
@@ -48,6 +72,7 @@ def confirm_input(prompt):
 
 # Show transaction history
 def show_history():
+    """Display all transactions sorted from newest to oldest."""
     transaction = get_sorted_transactions()
 
     if not transaction:
@@ -70,6 +95,10 @@ def show_history():
 # Show transaction summary
 
 def show_summary():
+    """Display income, expenses, balance, and expense totals by category.
+
+    The user can optionally filter the summary by month.
+    """
     month_input = input("Month (YYYY-MM), leave blank for all: ").strip()
     if not month_input:
         month = None
@@ -99,6 +128,7 @@ def show_summary():
 
 # Delete menu
 def delete_menu():
+    """Find a transaction, display its details, and ask for deletion confirmation."""
     id_input = input("ID to be deleted: ")
 
     try:
@@ -134,6 +164,7 @@ def delete_menu():
 
 # Add menu functions
 def add_menu():
+    """Prompt for transaction details and submit a new transaction."""
     print_title("ADD TRANSACTION")
 
     date_text = input("Date (YYYY-MM-DD, empty = today): ")
@@ -151,6 +182,7 @@ def add_menu():
 
 # Main menu
 def main_menu():
+    """Display the main menu and handle choices until the user exits."""
     while True:
         print_title("EXPENSE TRACKER")
         print(
@@ -181,5 +213,3 @@ def main_menu():
                 print("Invalid choice, please enter 1-5")
         except ValueError as err:
             print("Error:", err)
-
-        
