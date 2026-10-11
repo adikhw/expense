@@ -1,5 +1,5 @@
-from datetime import datetime
-from tracker import get_sorted_transactions, calculate_summary, find_transaction, delete_transaction
+from datetime import date, datetime
+from tracker import get_sorted_transactions, calculate_summary, find_transaction, delete_transaction, add_transaction
 
 # Show transactions history
 def show_history():
@@ -90,7 +90,7 @@ def delete_menu():
 
 
 # Input functions
-def empty_input(prompt):
+def get_non_empty_input(prompt):
     while True:
         text = input(prompt).strip()
 
@@ -107,7 +107,7 @@ def get_positive_int(prompt):
         try:
             number = int(raw)
         except ValueError:
-            print("please enter a whole number")
+            print("Please enter a whole number")
             continue
 
         if number > 0:
@@ -125,3 +125,22 @@ def confirm_input(prompt):
             return False
         else:
             print("Please type y or n")
+
+# Add menu functions
+def add_menu():
+    print("Add Transaction")
+
+    date_text = input("Date (YYYY-MM-DD, empty = today): ").strip()
+    transactions_type = input("Type (income/expense): ").strip().lower()
+    amount = get_positive_int("Amount: ")
+    category = get_non_empty_input("Category: ")
+    note = input("Note (optional): ").strip()
+
+    if not date_text:
+        date_text = date.today().isoformat()
+
+    try:
+        add_transaction(date_text, transactions_type, amount, category, note)
+        print("Transaction added")
+    except ValueError as error:
+        print(error)
