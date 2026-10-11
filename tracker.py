@@ -13,12 +13,12 @@ def amount_validation(amount):
         raise ValueError("amount must be greater than 0")
     return number
 
-def type_validation(transactions_type):
-    transactions_type = transactions_type.strip().lower()
+def type_validation(transaction_type):
+    transaction_type = transaction_type.strip().lower()
 
-    if transactions_type not in VALID_TYPE:
+    if transaction_type not in VALID_TYPE:
         raise ValueError("type must be income or expense")
-    return transactions_type
+    return transaction_type
 
 def category_validation(category):
     category = category.strip().lower()
@@ -40,10 +40,17 @@ def date_validation(date_text):
 
     return result.date().isoformat()
 
+def is_valid_month(text):
+    try:
+        parsed = datetime.strptime(text, "%Y-%m")
+    except ValueError:
+        return False
+    return parsed.strftime("%Y-%m") == text
+
 # Main functions
-def add_transaction(date_text, transactions_type, amount, category, note):
+def add_transaction(date_text, transaction_type, amount, category, note):
     date_text = date_validation(date_text)
-    transactions_type = type_validation(transactions_type)
+    transaction_type = type_validation(transaction_type)
     amount = amount_validation(amount)
     category = category_validation(category)
     note = note.strip()
@@ -58,7 +65,7 @@ def add_transaction(date_text, transactions_type, amount, category, note):
     transaction = {
         "id": new_id,
         "date": date_text,
-        "type": transactions_type,
+        "type": transaction_type,
         "amount": amount,
         "category": category,
         "note": note
@@ -112,22 +119,22 @@ def calculate_summary(month = None):
     }
 
 # Find function
-def find_transaction(transactions_id): 
+def find_transaction(transaction_id): 
     data = load_data()
 
     for t in data:
-        if t['id'] == transactions_id:
+        if t['id'] == transaction_id:
             return t
     return None
 
 # Delete function
-def delete_transaction(transactions_id):
+def delete_transaction(transaction_id):
     data = load_data()
     new_data = []
     found = False
 
     for t in data:
-        if t['id'] == transactions_id:
+        if t['id'] == transaction_id:
             found = True
         else:
             new_data.append(t)
