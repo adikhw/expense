@@ -87,3 +87,41 @@ def delete_menu():
 
     else:
         print("Canceled")
+
+
+# Input functions
+def empty_input(prompt):
+    while True:
+        text = input(prompt).strip()
+
+        if text:
+            return text
+
+        else:
+            print("Input cannot be empty")
+
+def get_positive_int(prompt):
+    while True:
+        raw = input(prompt).strip()
+
+        try:
+            number = int(raw)
+        except ValueError:
+            print("please enter a whole number")
+            continue
+
+        if number > 0:
+            return number
+        else:
+            print("Number must be greater than 0")
+
+def confirm_input(prompt):
+    while True:
+        answer = input(prompt).strip().lower()
+
+        if answer == "y":
+            return True
+        elif answer == "n":
+            return False
+        else:
+            print("Please type y or n")
